@@ -42,6 +42,11 @@ RUN \
   apt-get install -y libgtk2.0-dev libavcodec-dev libavformat-dev libswscale-dev libwebp-dev libtbb2 libtbb-dev libgstreamer1.0-0 \
   gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad cmake pkg-config
 
+# edgeimpulse
+
+RUN apt-get install -y gcc g++ make build-essential pkg-config glib2.0-dev libexpat1-dev sox v4l-utils libjpeg-turbo8-dev
+RUN wget https://github.com/libvips/libvips/releases/download/v8.12.1/vips-8.12.1.tar.gz
+
 # Copy/expand prebuilt OpenCV 4.1.1
 COPY opencv411_include.tar.gz .
 COPY opencv411_lib.tar.gz .
@@ -78,10 +83,13 @@ RUN \
   npm install && \
   npm run build
 
+#edgeimpulse
+RUN npm install edge-impulse-cli -g --unsafe-perm=true
+RUN npm install edge-impulse-linux -g --unsafe-perm=true
+
 EXPOSE 8080 8070 8090
 
 COPY config.jetson-nano config.bak
 
 COPY launch.sh launch.sh
 RUN chmod 777 launch.sh
-CMD ["./launch.sh"]

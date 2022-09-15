@@ -67,3 +67,11 @@ if [ $status -ne 0 ]; then
   echo "Failed to start npm run start: $status"
   exit $status
 fi
+
+# start edgeimpulse
+if [ $EI_COLLECT_MODE = "1" ];
+then
+    edge-impulse-linux --api-key $EI_API_KEY
+else
+    edge-impulse-linux-runner --api-key $EI_API_KEY
+fi
